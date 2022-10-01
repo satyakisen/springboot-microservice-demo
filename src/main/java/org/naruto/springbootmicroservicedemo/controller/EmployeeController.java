@@ -66,4 +66,13 @@ public class EmployeeController {
         return new ResponseEntity<>(empService.createEmployee(emp), HttpStatus.CREATED);
     }
 
+    @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateEmployee(@PathVariable("id") String id, @RequestBody Employee employee){
+        Employee emp = empService.getEmployeeById(id);
+        emp.setName(employee.getName());
+        emp.setDept(employee.getDept());
+        emp.setSalary(emp.getSalary());
+        empService.updateEmployee(emp);
+    }
 }

@@ -20,8 +20,7 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -69,5 +68,13 @@ class EmployeeControllerTest {
                                 .content(new ObjectMapper().writeValueAsBytes(employee)))
                .andExpect(status().isCreated())
                .andExpect(jsonPath("$.length()", greaterThan(0)));
+    }
+
+    @Test
+    void shouldUpdateEmployee() throws Exception {
+        mockMvc.perform(put("/v1/employee/" + id)
+                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                .content(new ObjectMapper().writeValueAsBytes(employee)))
+               .andExpect(status().isNoContent());
     }
 }

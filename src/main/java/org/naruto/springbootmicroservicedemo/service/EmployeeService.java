@@ -30,4 +30,11 @@ public interface EmployeeService {
      * @return the employee
      */
     Employee createEmployee(Employee emp);
+
+    /**
+     * Update employee.
+     *
+     * @param emp the emp
+     */
+    void updateEmployee(Employee emp);
 }
