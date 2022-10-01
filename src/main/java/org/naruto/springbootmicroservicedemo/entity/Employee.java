@@ -1,12 +1,18 @@
 package org.naruto.springbootmicroservicedemo.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 import java.util.UUID;
 
 public class Employee implements Serializable {
+    @JsonProperty("id")
     private UUID id;
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("dept")
     private String dept;
+    @JsonProperty("salary")
     private double salary;
 
     public Employee() {
