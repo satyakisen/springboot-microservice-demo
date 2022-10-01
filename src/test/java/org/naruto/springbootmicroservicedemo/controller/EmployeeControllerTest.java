@@ -1,5 +1,6 @@
 package org.naruto.springbootmicroservicedemo.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.naruto.springbootmicroservicedemo.entity.Employee;
@@ -16,9 +17,11 @@ import java.util.UUID;
 
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -56,5 +59,15 @@ class EmployeeControllerTest {
         mockMvc.perform(get("/v1/employee/" + id).accept(MediaType.APPLICATION_JSON))
                .andExpect(status().isOk())
                .andExpect(jsonPath("$.id", is(id)));
+    }
+
+    @Test
+    void shouldCreateAnEmployee() throws Exception {
+        when(mockEmpSvc.createEmployee(any())).thenReturn(employee);
+        mockMvc.perform(post("/v1/employee/")
+                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                .content(new ObjectMapper().writeValueAsBytes(employee)))
+               .andExpect(status().isCreated())
+               .andExpect(jsonPath("$.length()", greaterThan(0)));
     }
 }
