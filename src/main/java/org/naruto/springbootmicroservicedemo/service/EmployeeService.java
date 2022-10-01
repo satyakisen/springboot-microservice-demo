@@ -37,4 +37,11 @@ public interface EmployeeService {
      * @param emp the emp
      */
     void updateEmployee(Employee emp);
+
+    /**
+     * Delete employee.
+     *
+     * @param id the id
+     */
+    void deleteEmployee(String id);
 }

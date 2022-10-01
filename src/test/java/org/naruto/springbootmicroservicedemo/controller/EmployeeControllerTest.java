@@ -77,4 +77,10 @@ class EmployeeControllerTest {
                                 .content(new ObjectMapper().writeValueAsBytes(employee)))
                .andExpect(status().isNoContent());
     }
+
+    @Test
+    void shouldDeleteEmployee() throws Exception {
+        mockMvc.perform(delete("/v1/employee/" + id))
+               .andExpect(status().isNoContent());
+    }
 }

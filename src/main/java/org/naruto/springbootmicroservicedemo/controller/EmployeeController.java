@@ -56,6 +56,7 @@ public class EmployeeController {
 
     /**
      * Create employee response entity.
+     *
      * @param employee the employee
      * @return the response entity
      */
@@ -66,6 +67,12 @@ public class EmployeeController {
         return new ResponseEntity<>(empService.createEmployee(emp), HttpStatus.CREATED);
     }
 
+    /**
+     * Update employee.
+     *
+     * @param id       the id
+     * @param employee the employee
+     */
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateEmployee(@PathVariable("id") String id, @RequestBody Employee employee){
@@ -74,5 +81,16 @@ public class EmployeeController {
         emp.setDept(employee.getDept());
         emp.setSalary(emp.getSalary());
         empService.updateEmployee(emp);
+    }
+
+    /**
+     * Delete employee.
+     *
+     * @param id the id
+     */
+    @DeleteMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteEmployee(@PathVariable("id") String id) {
+        empService.deleteEmployee(id);
     }
 }
