@@ -19,6 +19,7 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -72,6 +73,8 @@ class EmployeeControllerTest {
 
     @Test
     void shouldUpdateEmployee() throws Exception {
+        when(mockEmpSvc.getEmployeeById(anyString())).thenReturn(employee);
+        doNothing().when(mockEmpSvc).updateEmployee(any());
         mockMvc.perform(put("/v1/employee/" + id)
                                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                                 .content(new ObjectMapper().writeValueAsBytes(employee)))
@@ -80,6 +83,7 @@ class EmployeeControllerTest {
 
     @Test
     void shouldDeleteEmployee() throws Exception {
+        doNothing().when(mockEmpSvc).deleteEmployee(anyString());
         mockMvc.perform(delete("/v1/employee/" + id))
                .andExpect(status().isNoContent());
     }
