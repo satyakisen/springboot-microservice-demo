@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -28,7 +30,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee getEmployeeById(String id) {
-        return null;
+        Optional<Employee> emp = employeeRepo.findById(UUID.fromString(id));
+        if(emp.isEmpty()) {
+            throw new RuntimeException("No employee for id:: " + id);
+        }
+        return emp.get();
     }
 
     @Override

@@ -12,8 +12,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -32,7 +34,6 @@ class EmployeeServiceImplTest {
     @BeforeEach
     void setUp() {
         employeeService = new EmployeeServiceImpl(employeeDAO);
-
         id = UUID.randomUUID().toString();
         employee = new Employee(UUID.fromString(id), "Naruto Uzumaki", "Marketing", 250000.00);        employees = new ArrayList<>();
         employees.add(employee);
@@ -52,4 +53,17 @@ class EmployeeServiceImplTest {
                 Assertions.assertThrows(RuntimeException.class, employeeService::getEmployees);
         Assertions.assertTrue(runtimeException.getMessage().contains("no employees"));
     }
+
+    @Test
+    void shouldReturnGetEmployeeById() {
+        when(employeeDAO.findById(any())).thenReturn(Optional.of(employee));
+        Assertions.assertNotNull(employeeService.getEmployeeById(UUID.randomUUID().toString()));
+    }
+
+    @Test
+    void shouldReturnExceptionWhileGettingEmployeeById() {
+        when(employeeDAO.findById(any())).thenReturn(Optional.empty());
+        Assertions.assertThrows(RuntimeException.class, () -> employeeService.getEmployeeById(UUID.randomUUID().toString()));
+    }
+
 }
